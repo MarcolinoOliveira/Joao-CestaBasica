@@ -1,6 +1,6 @@
-import { clientProps, saleProps } from "@/interfaces/interfaces";
+import { clientProps, paymentsProps, saleProps } from "@/interfaces/interfaces";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 
 interface createUserProps {
   newClient: Partial<clientProps>
@@ -9,6 +9,7 @@ interface createUserProps {
 interface newSaleProps {
   id: string
   newSale: Partial<saleProps>
+  monthPayment: paymentsProps
 }
 
 export async function createUser({ newClient }: createUserProps) {
@@ -30,8 +31,11 @@ export async function createUser({ newClient }: createUserProps) {
   await setDoc(ref, payload)
 }
 
-export async function addNewSale({ id, newSale }: newSaleProps) {
-  if (!id) return
+export async function addNewSale({ id, newSale, monthPayment }: newSaleProps) {
+  if (!id || !newSale.date || !newSale.value) return
+
+  const date = new Date(newSale.date)
+  const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}`
 
   const ref = collection(db, `clients/${id}/sales`)
 
@@ -40,7 +44,17 @@ export async function addNewSale({ id, newSale }: newSaleProps) {
     value: newSale.value,
   }
 
-  await addDoc(ref, payload)
+  const newSaleValue = monthPayment.saleValue + parseFloat(newSale.value?.replace(/R\$\s?|/g, '').replace(',', '.'))
+  const newSPaymentValue = newSale.payment ? monthPayment.paymentValue + parseFloat(newSale.payment.replace(/R\$\s?|/g, '').replace(',', '.')) : monthPayment.paymentValue
+  //await addDoc(ref, payload)
+
+  if (monthPayment.id != "") {
+    const refPay = doc(db, 'payments', monthPayment.id)
+    //await updateDoc(refPay, { saleValue: newSaleValue, paymentValue: newSPaymentValue })
+  } else {
+    const refPay = doc(db, 'payments', currentDate)
+    //await addDoc(refPay, { saleValue: newSaleValue, paymentValue: newSPaymentValue })
+  }
 }
 
 export async function addNewPayment({ id, newSale }: newSaleProps) {

@@ -5,12 +5,13 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import MaskedCurrencyInput from "@/lib/MaskedCurrencyInput";
 import { Button } from "../ui/button";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, use, useState } from "react";
 import { Circle } from "lucide-react";
-import { saleProps } from "@/interfaces/interfaces";
+import { paymentsProps, saleProps } from "@/interfaces/interfaces";
 import { addNewPayment, addNewSale } from "@/firebase/addDocs";
 import { toast } from "sonner";
 import { updateUserMaturity } from "@/firebase/updateDocs";
+import ClientsContext from "@/context/ClientsContext";
 
 interface NewSaleProps {
   id: string
@@ -23,15 +24,30 @@ const NewSale = ({ id, openSale, setOpenSale }: NewSaleProps) => {
   const [newSale, setNewSale] = useState<Partial<saleProps>>({})
   const [loading, setLoading] = useState(false)
 
+  const { payments } = use(ClientsContext)
+
   const saveNewSale = async () => {
     if (!newSale.date || !newSale.value || !newSale.maturity) {
       toast.error("Preencha os campos obrigatórios", { richColors: true })
       return
     }
     setLoading(prev => !prev)
-    await addNewSale({ id, newSale })
-    if (newSale.payment) await addNewPayment({ id, newSale })
-    await updateUserMaturity({ id, newSale })
+
+    const date = new Date(newSale.date)
+    const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}`
+    let monthPayment: paymentsProps = { id: "", saleValue: 0, paymentValue: 0 }
+
+    for (let i = 0; i < payments.length; i++) {
+      if (payments[i].id === currentDate) {
+        monthPayment = payments[i]
+        break
+      }
+    }
+    console.log(monthPayment)
+    await addNewSale({ id, newSale, monthPayment })
+    // if (newSale.payment) await addNewPayment({ id, newSale, payments })
+    // await updateUserMaturity({ id, newSale })
+
     setLoading(prev => !prev)
     toast.success('Cliente cadastrado com sucesso', { richColors: true })
     setOpenSale(prev => !prev)

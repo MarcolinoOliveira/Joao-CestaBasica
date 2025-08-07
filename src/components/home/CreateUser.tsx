@@ -44,11 +44,11 @@ const CreateUser = ({ client, open, setOpen }: CreateUserProps) => {
     }
     setLoading(prev => !prev)
     if (!edit) {
-      await createUser({ newClient })
+      //await createUser({ newClient })
       setOpenSale(prev => !prev)
     }
     if (edit) {
-      await updateUser({ newClient })
+      //await updateUser({ newClient })
       toast.success('Cliente edidato com sucesso', { richColors: true })
     }
     setOpen(prev => !prev)

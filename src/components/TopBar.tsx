@@ -6,15 +6,17 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { use, useEffect } from "react"
 import ClientsContext from "@/context/ClientsContext"
-import { getAllClients } from "@/firebase/getDocs"
+import { getAllClients, getMonthsPayments } from "@/firebase/getDocs"
 
 
 export default function TopBar() {
+
   const { setTheme, theme } = useTheme()
-  const { setClients } = use(ClientsContext)
+  const { setClients, setPayments } = use(ClientsContext)
 
   useEffect(() => {
     getAllClients({ setClients })
+    getMonthsPayments({ setPayments })
   }, [])
 
   const toggleTheme = () => {

@@ -1,14 +1,16 @@
-interface promissoryClientProps {
+import ClientFinance from "@/components/client/ClientFinance"
+
+interface onlyClientProps {
   params: Promise<{ id: any }>
 }
 
-export default async function promissoryClient({ params }: promissoryClientProps) {
+export default async function onlyClient({ params }: onlyClientProps) {
 
   const id = (await params).id
 
   return (
-    <div className="max-w-7xl mx-auto p-2">
-      {id}
+    <div>
+      <ClientFinance id={id} />
     </div>
   )
 }

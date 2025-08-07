@@ -18,3 +18,15 @@ export interface saleProps {
   payment: string
   maturity: string
 }
+
+export interface paymentsProps {
+  id: string
+  saleValue: number
+  paymentValue: number
+}
+
+export interface onlyClientFinanceProps {
+  id: string
+  value: string
+  date: string
+}
