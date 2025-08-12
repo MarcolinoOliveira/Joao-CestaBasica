@@ -12,7 +12,7 @@ import { Circle } from "lucide-react";
 import pushid from 'pushid'
 import { toast } from "sonner";
 import { updateUser } from "@/firebase/updateDocs";
-import NewSale from "./NewSale";
+import CreateSale from "./CreateSale";
 
 interface CreateUserProps {
   client: Partial<clientProps>
@@ -44,11 +44,11 @@ const CreateUser = ({ client, open, setOpen }: CreateUserProps) => {
     }
     setLoading(prev => !prev)
     if (!edit) {
-      //await createUser({ newClient })
+      await createUser({ newClient })
       setOpenSale(prev => !prev)
     }
     if (edit) {
-      //await updateUser({ newClient })
+      await updateUser({ newClient })
       toast.success('Cliente edidato com sucesso', { richColors: true })
     }
     setOpen(prev => !prev)
@@ -141,12 +141,12 @@ const CreateUser = ({ client, open, setOpen }: CreateUserProps) => {
           </div>
           <DialogFooter>
             <Button type="submit" onClick={saveClient} className="w-full cursor-pointer">
-              {!loading ? "Salvar" : <Circle />}
+              {!loading ? "Salvar" : <Circle className="animate-spin" />}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {newClient.id && <NewSale id={newClient.id} openSale={openSale} setOpenSale={setOpenSale} />}
+      {newClient.id && <CreateSale id={newClient.id} openSale={openSale} setOpenSale={setOpenSale} />}
     </div>
   );
 }

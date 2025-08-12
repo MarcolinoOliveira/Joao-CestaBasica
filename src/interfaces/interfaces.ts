@@ -13,6 +13,7 @@ export interface clientProps {
 }
 
 export interface saleProps {
+  id: string
   date: string
   value: string
   payment: string

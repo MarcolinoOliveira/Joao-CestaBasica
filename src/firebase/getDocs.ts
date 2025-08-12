@@ -8,6 +8,10 @@ interface getAllClientsProps {
   setClients: Dispatch<SetStateAction<clientProps[]>>
 }
 
+interface getAllClientsDesabledProps {
+  setClientsInactive: Dispatch<SetStateAction<clientProps[]>>
+}
+
 interface getMonthsPaymentsProps {
   setPayments: Dispatch<SetStateAction<paymentsProps[]>>
 }
@@ -15,6 +19,7 @@ interface getMonthsPaymentsProps {
 interface getClientPaymentsProps {
   id: string
   setClientPayments: Dispatch<SetStateAction<onlyClientFinanceProps[]>>
+  setLastIdPayment: Dispatch<SetStateAction<string>>
 }
 
 interface getClientSalesProps {
@@ -43,6 +48,14 @@ export function getAllClients({ setClients }: getAllClientsProps) {
   })
 }
 
+export function getAllClientsDesabled({ setClientsInactive }: getAllClientsDesabledProps) {
+  const ref = query(collection(db, "clients"), where("status", "==", "desabled"), orderBy('name'))
+  onSnapshot(ref, (snapshot) => {
+    const res = snapshot.docs.map((doc) => ({ ...doc.data() as clientProps, id: doc.id }))
+    setClientsInactive(res)
+  })
+}
+
 export async function getMonthsPayments({ setPayments }: getMonthsPaymentsProps) {
   const ref = collection(db, 'payments')
 
@@ -52,12 +65,13 @@ export async function getMonthsPayments({ setPayments }: getMonthsPaymentsProps)
   })
 }
 
-export async function getClientPayments({ id, setClientPayments }: getClientPaymentsProps) {
+export async function getClientPayments({ id, setClientPayments, setLastIdPayment }: getClientPaymentsProps) {
   if (id) {
     const ref = collection(db, `clients/${id}/payments`)
     onSnapshot(query(ref, orderBy('date', "desc")), (snapshot) => {
       const res = snapshot.docs.map((doc) => ({ ...doc.data() as onlyClientFinanceProps, id: doc.id }))
       setClientPayments(res)
+      if (res[0]) setLastIdPayment(res[0].id)
     })
   }
 }
@@ -65,7 +79,7 @@ export async function getClientPayments({ id, setClientPayments }: getClientPaym
 export async function getClientSales({ id, setClientSales }: getClientSalesProps) {
   if (id) {
     const ref = collection(db, `clients/${id}/sales`)
-    onSnapshot(query(ref, orderBy('date')), (snapshot) => {
+    onSnapshot(query(ref, orderBy('date', 'desc')), (snapshot) => {
       const res = snapshot.docs.map((doc) => ({ ...doc.data() as onlyClientFinanceProps, id: doc.id }))
       setClientSales(res)
     })

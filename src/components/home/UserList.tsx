@@ -3,7 +3,7 @@
 import ClientsContext from "@/context/ClientsContext";
 import { clientProps } from "@/interfaces/interfaces";
 import { CSSProperties, use, useState } from "react";
-import CreateUser from "./CreateUser";
+import CreateUser from "../global/CreateUser";
 import { Button } from "../ui/button";
 import AutoSizer from "react-virtualized-auto-sizer"
 import { FixedSizeList } from "react-window"
@@ -11,6 +11,8 @@ import Link from "next/link";
 import { Input } from "../ui/input";
 import { PencilLine, Search } from "lucide-react";
 import HeaderUser from "./HeaderUser";
+import MenuClientsStatus from "./MenuClientsStatus";
+import { getAllClientsDesabled } from "@/firebase/getDocs";
 
 interface rowListUsersProps {
   index: number,
@@ -38,8 +40,8 @@ const UserList = () => {
     || client.maturity.toLowerCase().includes(search.toLowerCase()) || client.date?.toLowerCase().includes(search.toLowerCase()))
 
   const clientsInactives = () => {
-    // getAllClientsInactives({ setClientsInactive })
-    setStatusClient("Inativos")
+    getAllClientsDesabled({ setClientsInactive })
+    setStatusClient("desabled")
   }
 
   const handleUser = (user: Partial<clientProps>) => {
@@ -90,7 +92,8 @@ const UserList = () => {
 
   return (
     <div className="flex flex-col gap-1.5 h-[72vh]">
-      <div className="flex w-full justify-end">
+      <div className="flex w-full justify-between">
+        <MenuClientsStatus statusClient={statusClient} setStatusClient={setStatusClient} clientsInactives={clientsInactives} />
         <Button className="cursor-pointer" onClick={() => handleUser({})}>Novo cliente</Button>
       </div>
       <div className="relative items-center py-2 w-full">

@@ -35,7 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           <ClientsProvider>
             <TopBar />
-            <div className="max-w-[2000px] mx-auto px-4">
+            <div className="max-w-[2000px] mx-auto px-4 mt-5">
               {children}
             </div>
             <Toaster />

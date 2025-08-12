@@ -7,19 +7,20 @@ import MaskedCurrencyInput from "@/lib/MaskedCurrencyInput";
 import { Button } from "../ui/button";
 import { Dispatch, SetStateAction, use, useState } from "react";
 import { Circle } from "lucide-react";
-import { paymentsProps, saleProps } from "@/interfaces/interfaces";
-import { addNewPayment, addNewSale } from "@/firebase/addDocs";
+import { saleProps } from "@/interfaces/interfaces";
 import { toast } from "sonner";
-import { updateUserMaturity } from "@/firebase/updateDocs";
+import { updateStatusClient, updateUserMaturity } from "@/firebase/updateDocs";
 import ClientsContext from "@/context/ClientsContext";
+import { getMonthPayment } from "@/lib/dateFormatter";
+import { createSale } from "@/firebase/addDocs";
 
-interface NewSaleProps {
+interface CreateSaleProps {
   id: string
   openSale: boolean
   setOpenSale: Dispatch<SetStateAction<boolean>>
 }
 
-const NewSale = ({ id, openSale, setOpenSale }: NewSaleProps) => {
+const CreateSale = ({ id, openSale, setOpenSale }: CreateSaleProps) => {
 
   const [newSale, setNewSale] = useState<Partial<saleProps>>({})
   const [loading, setLoading] = useState(false)
@@ -33,32 +34,21 @@ const NewSale = ({ id, openSale, setOpenSale }: NewSaleProps) => {
     }
     setLoading(prev => !prev)
 
-    const date = new Date(newSale.date)
-    const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}`
-    let monthPayment: paymentsProps = { id: "", saleValue: 0, paymentValue: 0 }
+    const monthPayment = getMonthPayment({ date: newSale.date, payments })
 
-    for (let i = 0; i < payments.length; i++) {
-      if (payments[i].id === currentDate) {
-        monthPayment = payments[i]
-        break
-      }
-    }
-    console.log(monthPayment)
-    await addNewSale({ id, newSale, monthPayment })
-    // if (newSale.payment) await addNewPayment({ id, newSale, payments })
-    // await updateUserMaturity({ id, newSale })
+    await createSale({ id, newSale, monthPayment })
+    await updateStatusClient({ id, status: 'active' })
 
     setLoading(prev => !prev)
-    toast.success('Cliente cadastrado com sucesso', { richColors: true })
+    toast.success('Venda feita com sucesso', { richColors: true })
     setOpenSale(prev => !prev)
-    setNewSale({})
   }
 
   return (
-    <Dialog open={openSale}>
+    <Dialog open={openSale} onOpenChange={() => setOpenSale(prev => !prev)}>
       <DialogContent className="w-[340px] sm:w-[450px]">
         <DialogHeader className="flex items-center justify-center">
-          <DialogTitle>Dados do cliente</DialogTitle>
+          <DialogTitle>Dados da venda</DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-4 gap-2">
           <div className="col-span-2 flex flex-col items-center gap-2">
@@ -106,7 +96,7 @@ const NewSale = ({ id, openSale, setOpenSale }: NewSaleProps) => {
         </div>
         <DialogFooter>
           <Button type="submit" onClick={saveNewSale} className="w-full cursor-pointer">
-            {!loading ? "Salvar" : <Circle />}
+            {!loading ? "Salvar" : <Circle className="animate-spin" />}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -114,4 +104,4 @@ const NewSale = ({ id, openSale, setOpenSale }: NewSaleProps) => {
   );
 }
 
-export default NewSale;
+export default CreateSale;

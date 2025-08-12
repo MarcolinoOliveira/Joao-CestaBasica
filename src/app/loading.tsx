@@ -1,8 +1,8 @@
 const loading = () => {
 
   return (
-    <div>
-      <p>Loading...</p>
+    <div className="flex items-center w-full h-full mx-auto ">
+      <p>Carregando...</p>
     </div>
   );
 }
