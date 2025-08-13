@@ -17,16 +17,16 @@ const MenuClientsStatus = ({ statusClient, setStatusClient, clientsInactives }: 
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="default" className="cursor-pointer">
-          {statusClient === 'active' && <p className="text-white font-bold">Clientes Ativados</p>}
-          {statusClient === 'desabled' && <p className="text-white font-bold">Clientes Desativados</p>}
+          {statusClient === 'active' && <p className="text-white font-bold">Clientes Ativos</p>}
+          {statusClient === 'desabled' && <p className="text-white font-bold">Clientes Inativos</p>}
           <ChevronDown className="text-white" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto items-start p-1" align='start'>
         <PopoverClose asChild>
           <div className="flex flex-col gap-2">
-            <Button onClick={() => setStatusClient("active")} className="text-white font-bold">Ativos</Button>
-            <Button onClick={() => clientsInactives()} className="text-white font-bold">Inativos</Button>
+            <Button onClick={() => setStatusClient("active")} className="text-white font-bold cursor-pointer">Clientes Ativos</Button>
+            <Button onClick={() => clientsInactives()} className="text-white font-bold cursor-pointer">Clientes Inativos</Button>
           </div>
         </PopoverClose>
       </PopoverContent>

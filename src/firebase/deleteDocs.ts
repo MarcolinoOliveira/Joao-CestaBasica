@@ -3,6 +3,9 @@ import { getPreviousMaturity } from "@/lib/dateFormatter"
 import { db } from "@/lib/firebase"
 import { deleteDoc, doc, updateDoc } from "firebase/firestore"
 
+interface deleteClientProps {
+  id: string
+}
 interface deletePaymentClientProps {
   id: string
   payment: Partial<onlyClientFinanceProps>
@@ -14,6 +17,14 @@ interface deleteSaleClientProps {
   id: string
   sale: Partial<onlyClientFinanceProps>
   monthPayment: paymentsProps
+}
+
+export async function deleteClient({ id }: deleteClientProps) {
+  if (!id) return
+
+  const ref = doc(db, 'clients', id)
+
+  await deleteDoc(ref)
 }
 
 export async function deletePaymentClient({ id, payment, maturity, monthPayment }: deletePaymentClientProps) {

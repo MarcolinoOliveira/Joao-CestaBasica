@@ -24,14 +24,17 @@ export default function TopBar() {
   }
 
   return (
-    <div className="flex justify-between py-1.5 px-4 max-w-[2000px] mx-auto">
-      <Link href={'/'} className="cursor-pointer">
-        Joao Silva
+    <div className="grid grid-cols-3 py-1.5 px-4 max-w-[2000px] mx-auto">
+      <Link href={'/'} className="flex justify-start items-center cursor-pointer font-bold text-2xl text-primary italic">
+        João Silva
       </Link>
-      <Button variant="outline" size="icon" onClick={toggleTheme} className="cursor-pointer">
-        <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-        <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-      </Button>
+      <p className="flex justify-center items-center font-bold text-2xl">Controle de vendas Cestas básicas</p>
+      <div className="flex justify-end items-center">
+        <Button variant="outline" size="icon" onClick={toggleTheme} className="cursor-pointer">
+          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+        </Button>
+      </div>
     </div>
   )
 }

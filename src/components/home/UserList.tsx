@@ -9,10 +9,11 @@ import AutoSizer from "react-virtualized-auto-sizer"
 import { FixedSizeList } from "react-window"
 import Link from "next/link";
 import { Input } from "../ui/input";
-import { PencilLine, Search } from "lucide-react";
+import { PencilLine, Search, SquareX, CirclePlus, CircleDollarSign, LoaderCircle } from "lucide-react";
 import HeaderUser from "./HeaderUser";
 import MenuClientsStatus from "./MenuClientsStatus";
 import { getAllClientsDesabled } from "@/firebase/getDocs";
+import { DeleteClient } from "./DeleteClient";
 
 interface rowListUsersProps {
   index: number,
@@ -26,6 +27,8 @@ const UserList = () => {
   const [statusClient, setStatusClient] = useState<string>("active")
   const [search, setSearch] = useState<string>("")
   const [clientsInactive, setClientsInactive] = useState<clientProps[]>([])
+  const [openDelUser, setOpenDelUser] = useState(false)
+  const [clientId, setClientId] = useState('')
 
   const { clients } = use(ClientsContext)
 
@@ -47,6 +50,11 @@ const UserList = () => {
   const handleUser = (user: Partial<clientProps>) => {
     setEditUser(user)
     setOpen(prev => !prev)
+  }
+
+  const handleDelClient = (id: string) => {
+    setClientId(id)
+    setOpenDelUser(prev => !prev)
   }
 
   const rowListUsers = ({ index, style }: rowListUsersProps) => {
@@ -80,21 +88,35 @@ const UserList = () => {
         <div className="col-span-2 flex items-center justify-center ">
           <p>{e.maturity?.split('-').reverse().join('/')}</p>
         </div>
-        <div className={`flex items-center justify-center rounded-3xl h-6 my-auto ${e.status === "OK" ? 'bg-green-500' : 'bg-red-500'}`}>
-          <p>{e.status}</p>
+        <div className={`flex items-center justify-center rounded-3xl h-6 my-auto ${e.status != 'desabled' ? e.status === "OK" ? 'bg-green-500' : 'bg-red-500' : 'bg-gray-600'}`}>
+          <p>{e.status != 'desabled' ? e.status : 'Inativo'}</p>
         </div>
         <div className="flex items-center justify-end ">
-          <PencilLine size={20} onClick={() => handleUser(e)} className="cursor-pointer mr-3 hover:text-primary" />
+          {e.status != 'desabled' && <PencilLine size={20} onClick={() => handleUser(e)} className="cursor-pointer mr-3 hover:text-primary" />}
+          {e.status === 'desabled' && <SquareX size={20} onClick={() => handleDelClient(e.id)} className="cursor-pointer mr-3 text-red-500" />}
         </div>
       </div>
     )
   }
 
+  if (!clients) return <div className="flex w-full h-[80vh] items-center justify-center gap-2"><LoaderCircle className="animate-spin" /><p>Carregando</p></div>
+
   return (
     <div className="flex flex-col gap-1.5 h-[72vh]">
       <div className="flex w-full justify-between">
         <MenuClientsStatus statusClient={statusClient} setStatusClient={setStatusClient} clientsInactives={clientsInactives} />
-        <Button className="cursor-pointer" onClick={() => handleUser({})}>Novo cliente</Button>
+        <div className="flex gap-2">
+          <Link href='/finance'>
+            <Button className="cursor-pointer flex">
+              <CircleDollarSign />
+              <p>Finançêiro</p>
+            </Button>
+          </Link>
+          <Button className="cursor-pointer flex" onClick={() => handleUser({})}>
+            <CirclePlus />
+            <p>Novo cliente</p>
+          </Button>
+        </div>
       </div>
       <div className="relative items-center py-2 w-full">
         <Search className="absolute left-3 top-1/2 h-4 w-4 text-muted-foreground transform -translate-y-1/2 pointer-events-none" />
@@ -118,6 +140,7 @@ const UserList = () => {
         )}
       </AutoSizer>
       <CreateUser client={editUser} open={open} setOpen={setOpen} />
+      <DeleteClient id={clientId} openDelUser={openDelUser} setOpenDelUser={setOpenDelUser} />
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import MaskedTelephoneInput from "@/lib/MaskedTelephoneInput";
 import { createUser } from "@/firebase/addDocs";
-import { Circle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import pushid from 'pushid'
 import { toast } from "sonner";
 import { updateUser } from "@/firebase/updateDocs";
@@ -141,7 +141,7 @@ const CreateUser = ({ client, open, setOpen }: CreateUserProps) => {
           </div>
           <DialogFooter>
             <Button type="submit" onClick={saveClient} className="w-full cursor-pointer">
-              {!loading ? "Salvar" : <Circle className="animate-spin" />}
+              {!loading ? "Salvar" : <LoaderCircle className="animate-spin" />}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -7,7 +7,7 @@ import { onlyClientFinanceProps } from "@/interfaces/interfaces";
 import { getMonthPayment } from "@/lib/dateFormatter";
 import { deletePaymentClient } from "@/firebase/deleteDocs";
 import { toast } from "sonner";
-import { Circle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 
 type deletePaymentProps = {
   id: string
@@ -46,7 +46,7 @@ export function DeletePayment({ id, openDelPay, setOpenDelPay, payment, maturity
           <div className="flex gap-2 items-center w-full">
             <AlertDialogCancel className="w-1/2 cursor-pointer">Cancelar</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeletePayment} className="w-1/2 mt-2 sm:mt-0 text-white cursor-pointer">
-              {!loading ? "Continuar" : <Circle className="animate-spin" />}
+              {!loading ? "Continuar" : <LoaderCircle className="animate-spin" />}
             </AlertDialogAction>
           </div>
         </AlertDialogFooter>

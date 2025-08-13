@@ -5,6 +5,11 @@ interface getMonthPaymentProps {
   payments: paymentsProps[]
 }
 
+export const getCurrentMonth = () => {
+  let now = new Date();
+  return `${now.getFullYear()}-${now.getMonth() + 1}`;
+}
+
 export const dateFormatterPTBR = (date: Date, locale = 'pt-BR') => {
   return new Intl.DateTimeFormat(locale).format(date)
 }
@@ -68,4 +73,28 @@ export const getPreviousMaturity = (date: string) => {
   const dd = String(safeDay).padStart(2, "0");
 
   return `${yyyy}-${mm}-${dd}`;
+}
+
+export const filterPaymentByMonth = (payments: paymentsProps[], currentMonth: string) => {
+  const [year, month] = currentMonth.split('-')
+  let res: paymentsProps = { id: '', paymentValue: 0, saleValue: 0 }
+
+  for (let i = 0; i < payments?.length; i++) {
+    const newDate = new Date(payments[i].id)
+
+    if (newDate.getFullYear() === parseInt(year) && (newDate.getMonth() + 1) === parseInt(month)) {
+      res = payments[i]
+      break
+    }
+  }
+
+  return res
+}
+
+export const formatCurrentMonth = (currentMonth: string) => {
+  if (!currentMonth) return
+  const [year, month] = currentMonth.split('-')
+  const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
+  return `${months[parseInt(month) - 1]} de ${year}`;
 }

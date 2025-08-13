@@ -5,7 +5,7 @@ import { onlyClientFinanceProps } from "@/interfaces/interfaces";
 import { DocumentData } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { PencilLine, SquareX } from "lucide-react";
+import { LoaderCircle, PencilLine, SquareX } from "lucide-react";
 import NewPayment from "./NewPayment";
 import NewSale from "./NewSale";
 import HeaderClient from "./HeaderClient";
@@ -70,7 +70,7 @@ const ClientFinance = ({ id }: clientFinanceProps) => {
     setOpenDelSale(prev => !prev)
   }
 
-  if (!client) return <div className="flex items-center w-full h-full mx-auto">Carregando...</div>
+  if (!client) return <div className="flex items-center w-full h-[80vh] justify-center gap-2"><LoaderCircle />Carregando...</div>
 
   return (
     <div className="flex flex-col gap-8">
@@ -93,7 +93,7 @@ const ClientFinance = ({ id }: clientFinanceProps) => {
         </div>
         {clientSales.map((e, i) => (
           <div key={i} className="grid grid-cols-4 p-3 font-semibold border-b border-card last:rounded-2xl">
-            <p className="flex justify-start items-center">Cesta basica</p>
+            <p className="flex justify-start items-center">Cesta básica</p>
             <p className="flex justify-center items-center">{e.value}</p>
             <p className="flex justify-center items-center">{e.date.split('-').reverse().join('/')}</p>
             <div className="flex justify-end gap-2">

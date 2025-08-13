@@ -19,7 +19,7 @@ interface getMonthsPaymentsProps {
 interface getClientPaymentsProps {
   id: string
   setClientPayments: Dispatch<SetStateAction<onlyClientFinanceProps[]>>
-  setLastIdPayment: Dispatch<SetStateAction<string>>
+  setLastIdPayment?: Dispatch<SetStateAction<string>>
 }
 
 interface getClientSalesProps {
@@ -71,7 +71,7 @@ export async function getClientPayments({ id, setClientPayments, setLastIdPaymen
     onSnapshot(query(ref, orderBy('date', "desc")), (snapshot) => {
       const res = snapshot.docs.map((doc) => ({ ...doc.data() as onlyClientFinanceProps, id: doc.id }))
       setClientPayments(res)
-      if (res[0]) setLastIdPayment(res[0].id)
+      if (res[0] && setLastIdPayment) setLastIdPayment(res[0].id)
     })
   }
 }

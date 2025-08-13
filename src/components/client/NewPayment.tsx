@@ -6,7 +6,7 @@ import { Input } from "../ui/input";
 import MaskedCurrencyInput from "@/lib/MaskedCurrencyInput";
 import { Button } from "../ui/button";
 import { Dispatch, SetStateAction, use, useEffect, useState } from "react";
-import { Circle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { onlyClientFinanceProps, paymentsProps } from "@/interfaces/interfaces";
 import { toast } from "sonner";
 import { getMonthPayment } from "@/lib/dateFormatter";
@@ -99,7 +99,7 @@ const NewPayment = ({ id, payment, maturity, openPayment, setOpenPayment, total 
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleSavePayment} className="w-full cursor-pointer">
-            {!loading ? "Salvar" : <Circle className="animate-spin" />}
+            {!loading ? "Salvar" : <LoaderCircle className="animate-spin" />}
           </Button>
         </DialogFooter>
       </DialogContent>

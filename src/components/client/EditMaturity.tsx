@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Circle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { updateUserMaturity } from "@/firebase/updateDocs";
 import { toast } from "sonner";
@@ -60,7 +60,7 @@ const EditMaturity = ({ id, maturity, openEditMaturity, setOpenEditMaturity }: e
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleSaveNewMaturity} className="w-full cursor-pointer">
-            {!loading ? "Salvar" : <Circle className="animate-spin" />}
+            {!loading ? "Salvar" : <LoaderCircle className="animate-spin" />}
           </Button>
         </DialogFooter>
       </DialogContent>

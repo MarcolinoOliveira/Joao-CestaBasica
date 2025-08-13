@@ -6,7 +6,7 @@ import { Input } from "../ui/input";
 import MaskedCurrencyInput from "@/lib/MaskedCurrencyInput";
 import { Button } from "../ui/button";
 import { Dispatch, SetStateAction, use, useState } from "react";
-import { Circle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { saleProps } from "@/interfaces/interfaces";
 import { toast } from "sonner";
 import { updateStatusClient, updateUserMaturity } from "@/firebase/updateDocs";
@@ -96,7 +96,7 @@ const CreateSale = ({ id, openSale, setOpenSale }: CreateSaleProps) => {
         </div>
         <DialogFooter>
           <Button type="submit" onClick={saveNewSale} className="w-full cursor-pointer">
-            {!loading ? "Salvar" : <Circle className="animate-spin" />}
+            {!loading ? "Salvar" : <LoaderCircle className="animate-spin" />}
           </Button>
         </DialogFooter>
       </DialogContent>
