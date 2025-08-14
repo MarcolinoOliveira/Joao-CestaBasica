@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 interface editMaturityProps {
   id: string
-  maturity: string
+  maturity: Partial<string>
   openEditMaturity: boolean
   setOpenEditMaturity: Dispatch<SetStateAction<boolean>>
 }
@@ -44,14 +44,14 @@ const EditMaturity = ({ id, maturity, openEditMaturity, setOpenEditMaturity }: e
           <DialogTitle>Vencimento</DialogTitle>
         </DialogHeader>
         <div className="grid w-full gap-2">
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-4">
             <Label htmlFor="name" className="text-left w-full font-semibold">
               Vencimento*:
             </Label>
             <Input
               id="data"
               type="date"
-              value={newMaturity}
+              value={newMaturity ?? ''}
               onChange={(e) => setNewMaturity(e.target.value)}
               min="1900-01-01"
               max="2299-12-31"

@@ -96,5 +96,5 @@ export const formatCurrentMonth = (currentMonth: string) => {
   const [year, month] = currentMonth.split('-')
   const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
-  return `${months[parseInt(month) - 1]} de ${year}`;
+  return `${months[parseInt(month) - 1]} ${year}`;
 }

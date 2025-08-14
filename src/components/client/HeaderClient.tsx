@@ -10,11 +10,9 @@ import EditMaturity from "./EditMaturity";
 
 interface headerClientProps {
   client: DocumentData
-  totalSales: number
-  totalPayment: number
 }
 
-const HeaderClient = ({ client, totalPayment, totalSales }: headerClientProps) => {
+const HeaderClient = ({ client }: headerClientProps) => {
 
   const [status, setStatus] = useState('')
   const [open, setOpen] = useState(false)
@@ -27,7 +25,7 @@ const HeaderClient = ({ client, totalPayment, totalSales }: headerClientProps) =
   }, [client])
 
   return (
-    <div className="grid grid-cols-4 gap-y-4 bg-card p-3 font-semibold rounded-2xl">
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-y-4 bg-card p-3 font-semibold rounded-2xl">
       <div className="flex gap-2">
         <p className="text-muted-foreground">Nome:</p>
         <p>{client.name}</p>
@@ -59,16 +57,15 @@ const HeaderClient = ({ client, totalPayment, totalSales }: headerClientProps) =
         </p>
       </div>
       <div className="flex gap-2">
-        <p className="text-muted-foreground">Vencimento:</p>
-        <p>{client.maturity.split("-").reverse().join("/")}</p>
-        <p className="text-sm cursor-pointer text-primary underline" onClick={() => setOpenEditMaturity(true)}>Alterar Vencimento</p>
-      </div>
-      <div className="flex gap-2">
         <p className="text-muted-foreground">Referencia:</p>
         <p>{client.reference}</p>
       </div>
-      <div className="flex gap-2 col-span-3 justify-end">
-        <Button className="flex gap-1 cursor-pointer" onClick={() => setOpen(true)}>
+      <div className="flex flex-col lg:col-span-2">
+        <p className="text-muted-foreground">Vencimento: {client.maturity?.split("-").reverse().join("/")}</p>
+        <p className="text-sm cursor-pointer text-primary underline" onClick={() => setOpenEditMaturity(true)}>Alterar Vencimento</p>
+      </div>
+      <div className="flex gap-2 lg:col-span-2 justify-end">
+        <Button className="w-full md:w-auto flex gap-1 cursor-pointer" onClick={() => setOpen(true)}>
           <PencilLine className="w-15 h-15" />
           <p>Editar cliente</p>
         </Button>

@@ -60,7 +60,7 @@ const NewSale = ({ id, sale, openSale, setOpenSale }: newSaleProps) => {
         <DialogHeader className="flex items-center justify-center">
           <DialogTitle>Dados da venda</DialogTitle>
         </DialogHeader>
-        <div className="grid w-full gap-2">
+        <div className="grid w-full gap-4">
           <div className="flex flex-col items-center gap-2">
             <Label htmlFor="name" className="text-left w-full font-semibold">
               Data da venda*:

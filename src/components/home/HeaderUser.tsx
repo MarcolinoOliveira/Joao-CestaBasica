@@ -7,33 +7,35 @@ interface HeaderUserProps {
 const HeaderUser = ({ searchClients }: HeaderUserProps) => {
 
   return (
-    <div className="grid grid-cols-18 w-full gap-1 font-semibold rounded-md bg-primary p-2 text-primary-foreground pr-7">
-      <div className="col-span-4 flex flex-col items-start justify-start">
-        Nome/Telefone
+    <div className="grid grid-cols-9 lg:grid-cols-18 w-full gap-1 font-semibold rounded-md bg-primary p-2 text-primary-foreground pr-7">
+      <div className="col-span-3 lg:col-span-4 flex flex-col items-start justify-start">
+        Nome
       </div>
-      <div className="col-span-3 flex items-center justify-center" >
+      <div className="hidden lg:flex col-span-3 items-center justify-center" >
         <p>Rua</p>
       </div>
-      <div className="flex items-center justify-center">
+      <div className="hidden lg:flex items-center justify-center">
         <p>Nº</p>
       </div>
-      <div className="col-span-2 flex items-center justify-center ">
+      <div className="hidden lg:flex col-span-2 items-center justify-center ">
         <p>Bairro</p>
       </div>
-      <div className="col-span-2 flex items-center justify-center ">
+      <div className="hidden lg:flex col-span-2 items-center justify-center ">
         <p>Cidade</p>
       </div>
-      <div className="col-span-2 flex items-center justify-center ">
+      <div className="hidden lg:flex col-span-2 items-center justify-center ">
         <p>Referência</p>
       </div>
-      <div className="col-span-2 flex items-center justify-center ">
-        <p>Vencimento</p>
+      <div className="col-span-3 lg:col-span-2 items-center justify-center ">
+        <p className="flex lg:hidden">Total: {searchClients}</p>
+        <p className="hidden lg:flex">Vencimento</p>
       </div>
-      <div className="flex items-center  justify-center rounded-3xl">
+      <div className="hidden lg:flex items-center  justify-center rounded-3xl">
         <p>Status</p>
       </div>
-      <div className="flex items-center justify-end ">
-        <p>Total: {searchClients}</p>
+      <div className="col-span-3 lg:col-span-1 flex items-center justify-end ">
+        <p className="hidden lg:flex">Total: {searchClients}</p>
+        <p className="flex lg:hidden">Vencimento</p>
       </div>
     </div>
   );

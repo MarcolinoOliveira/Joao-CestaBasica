@@ -12,7 +12,7 @@ import { LoaderCircle } from "lucide-react";
 import pushid from 'pushid'
 import { toast } from "sonner";
 import { updateUser } from "@/firebase/updateDocs";
-import CreateSale from "./CreateSale";
+import NewSale from "./NewSale";
 
 interface CreateUserProps {
   client: Partial<clientProps>
@@ -62,7 +62,7 @@ const CreateUser = ({ client, open, setOpen }: CreateUserProps) => {
           <DialogHeader className="flex items-center justify-center">
             <DialogTitle>Dados do cliente</DialogTitle>
           </DialogHeader>
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-4 gap-4">
             <div className="col-span-4 flex flex-col items-center gap-2">
               <Label htmlFor="name" className="text-left w-full font-semibold">
                 Nome:*
@@ -146,7 +146,7 @@ const CreateUser = ({ client, open, setOpen }: CreateUserProps) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {newClient.id && <CreateSale id={newClient.id} openSale={openSale} setOpenSale={setOpenSale} />}
+      {newClient.id && <NewSale id={newClient.id} sale={{}} openSale={openSale} setOpenSale={setOpenSale} />}
     </div>
   );
 }

@@ -22,12 +22,15 @@ const Dashboard = () => {
   const historicalPayments = payments.reduce((acc, curr) => acc + curr.paymentValue, 0)
 
   return (
-    <div className="flex flex-col mx-auto max-w-5xl gap-8">
-      <div className="flex flex-col border border-card rounded-2xl mt-5">
+    <div className="flex flex-col mx-auto max-w-5xl gap-3">
+      <div className="flex items-center justify-center text-2xl font-bold w-full">
+        <p>Todas as vendas</p>
+      </div>
+      <div className="flex flex-col border border-card rounded-2xl">
         <div className="grid grid-cols-3 p-2 bg-card font-bold rounded-t-2xl">
-          <p className="flex items-center justify-start">Todas as vendas</p>
-          <p className="flex items-center justify-center">Total Vendido</p>
-          <p className="flex items-center justify-end pr-3">Total Recebido</p>
+          <p className="flex items-center justify-start">Total</p>
+          <p className="flex items-center justify-center">Vendido</p>
+          <p className="flex items-center justify-end pr-3">Recebido</p>
         </div>
         <div>
           <div className="grid grid-cols-3 px-2 py-4 font-semibold border-b border-card last:rounded-2xl">
@@ -37,11 +40,14 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <div className="flex items-center justify-center text-2xl font-bold w-full mt-5">
+        <p>Vendas de cada mês</p>
+      </div>
       <div className="flex flex-col border border-card rounded-2xl">
         <div className="grid grid-cols-3 p-2 bg-card font-bold rounded-t-2xl">
-          <p className="flex items-center justify-start">Vendas por mês</p>
-          <p className="flex items-center justify-center">Total Vendido</p>
-          <p className="flex items-center justify-end pr-3">Total Recebido</p>
+          <p className="flex items-center justify-start">Vendas</p>
+          <p className="flex items-center justify-center">Vendido</p>
+          <p className="flex items-center justify-end pr-3">Recebido</p>
         </div>
         {sequencePayments.map((e, i) => (
           <div key={i} className="grid grid-cols-3 px-2 py-4 font-semibold border-b border-card last:rounded-2xl">

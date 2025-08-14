@@ -32,15 +32,15 @@ const UserList = () => {
 
   const { clients } = use(ClientsContext)
 
-  const searchClientsAtivos = clients?.filter(client => client.name.toLowerCase().includes(search.toLowerCase())
-    || client.status?.toLowerCase().includes(search.toLowerCase()) || client.city.toLowerCase().includes(search.toLowerCase())
-    || client.neighborhood.toLowerCase().includes(search.toLowerCase()) || client.street.toLowerCase().includes(search.toLowerCase())
-    || client.maturity.toLowerCase().includes(search.toLowerCase()) || client.date?.toLowerCase().includes(search.toLowerCase()))
+  const searchClientsAtivos = clients?.filter(client => client.name?.toLowerCase().includes(search.toLowerCase())
+    || client.status?.toLowerCase().includes(search.toLowerCase()) || client.city?.toLowerCase().includes(search.toLowerCase())
+    || client.neighborhood?.toLowerCase().includes(search.toLowerCase()) || client.street?.toLowerCase().includes(search.toLowerCase())
+    || client.maturity?.toLowerCase().includes(search.toLowerCase()) || client.date?.toLowerCase().includes(search.toLowerCase()))
 
-  const searchClientsInativos = clientsInactive?.filter(client => client.name.toLowerCase().includes(search.toLowerCase())
-    || client.status?.toLowerCase().includes(search.toLowerCase()) || client.city.toLowerCase().includes(search.toLowerCase())
-    || client.neighborhood.toLowerCase().includes(search.toLowerCase()) || client.street.toLowerCase().includes(search.toLowerCase())
-    || client.maturity.toLowerCase().includes(search.toLowerCase()) || client.date?.toLowerCase().includes(search.toLowerCase()))
+  const searchClientsInativos = clientsInactive?.filter(client => client.name?.toLowerCase().includes(search.toLowerCase())
+    || client.status?.toLowerCase().includes(search.toLowerCase()) || client.city?.toLowerCase().includes(search.toLowerCase())
+    || client.neighborhood?.toLowerCase().includes(search.toLowerCase()) || client.street?.toLowerCase().includes(search.toLowerCase())
+    || client.maturity?.toLowerCase().includes(search.toLowerCase()) || client.date?.toLowerCase().includes(search.toLowerCase()))
 
   const clientsInactives = () => {
     getAllClientsDesabled({ setClientsInactive })
@@ -61,39 +61,43 @@ const UserList = () => {
 
     const e = statusClient === 'active' ? searchClientsAtivos[index] : searchClientsInativos[index]
 
+
     return (
-      <div key={index} style={style} className={`grid grid-cols-18 w-full gap-1 font-semibold rounded-md border-b pl-2 pr-4 border-border ${index % 2 === 0 ? 'bg-border' : 'bg-accent'}`}>
-        <div className="col-span-4 flex flex-col items-start justify-start my-auto">
+      <div key={index} style={style} className={`grid grid-cols-10 lg:grid-cols-18 w-full gap-1 font-semibold rounded-md border-b pl-2 pr-1 lg:pr-4 border-border ${index % 2 === 0 ? 'bg-border' : 'bg-accent'}`}>
+        <div className="col-span-7 lg:col-span-4 flex flex-col items-start justify-start my-auto">
           <Link href={`onlyClient/${e.id}`} className="hover:underline">{e.name}</Link>
-          <div className=" flex gap-4">
+          <div className="hidden lg:flex gap-4">
             <p>{e.phone}</p>
-            <p>{e.date?.split('-').reverse().join('/')}</p>
           </div>
+          <p className="flex lg:hidden">Rua:{e.street} {e.number}</p>
         </div>
-        <div className="col-span-3 flex items-center justify-center" >
+        <div className="hidden lg:flex col-span-3 items-center justify-center" >
           <p>{e.street}</p>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="hidden lg:flex items-center justify-center">
           <p>{e.number}</p>
         </div>
-        <div className="col-span-2 flex items-center justify-center ">
+        <div className="hidden lg:flex col-span-2 items-center justify-center ">
           <p>{e.neighborhood}</p>
         </div>
-        <div className="col-span-2 flex items-center justify-center ">
+        <div className="hidden lg:flex col-span-2 items-center justify-center ">
           <p>{e.city}</p>
         </div>
-        <div className="col-span-2 flex items-center justify-center ">
+        <div className="hidden lg:flex col-span-2 items-center justify-center ">
           <p>{e.reference}</p>
         </div>
-        <div className="col-span-2 flex items-center justify-center ">
+        <div className="col-span-2 lg:col-span-2 flex flex-col items-center justify-center ">
           <p>{e.maturity?.split('-').reverse().join('/')}</p>
+          <div className={`flex lg:hidden items-center justify-center rounded-3xl h-6 my-auto w-full ${e.status != 'desabled' ? e.status === "OK" ? 'bg-green-500' : 'bg-red-500' : 'bg-gray-600'}`}>
+            <p className="text-white">{e.status != 'desabled' ? e.status : 'Inativo'}</p>
+          </div>
         </div>
-        <div className={`flex items-center justify-center rounded-3xl h-6 my-auto ${e.status != 'desabled' ? e.status === "OK" ? 'bg-green-500' : 'bg-red-500' : 'bg-gray-600'}`}>
+        <div className={`hidden lg:flex items-center justify-center  rounded-3xl h-6 my-auto ${e.status != 'desabled' ? e.status === "OK" ? 'bg-green-500' : 'bg-red-500' : 'bg-gray-600'}`}>
           <p>{e.status != 'desabled' ? e.status : 'Inativo'}</p>
         </div>
-        <div className="flex items-center justify-end ">
-          {e.status != 'desabled' && <PencilLine size={20} onClick={() => handleUser(e)} className="cursor-pointer mr-3 hover:text-primary" />}
-          {e.status === 'desabled' && <SquareX size={20} onClick={() => handleDelClient(e.id)} className="cursor-pointer mr-3 text-red-500" />}
+        <div className="flex flex-col lg:flex-row items-end justify-center lg:justify-end lg:items-center gap-2">
+          <PencilLine size={17} onClick={() => handleUser(e)} className="cursor-pointer hover:text-primary" />
+          <SquareX size={17} onClick={() => handleDelClient(e.id)} className="cursor-pointer lg:mr-3 text-red-500 hover:text-red-400" />
         </div>
       </div>
     )
@@ -109,12 +113,12 @@ const UserList = () => {
           <Link href='/finance'>
             <Button className="cursor-pointer flex">
               <CircleDollarSign />
-              <p>Finançêiro</p>
+              <p className="hidden lg:flex">Financeiro</p>
             </Button>
           </Link>
           <Button className="cursor-pointer flex" onClick={() => handleUser({})}>
             <CirclePlus />
-            <p>Novo cliente</p>
+            <p className="hidden lg:flex">Novo cliente</p>
           </Button>
         </div>
       </div>

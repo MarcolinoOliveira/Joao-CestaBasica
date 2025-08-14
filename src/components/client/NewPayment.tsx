@@ -7,7 +7,7 @@ import MaskedCurrencyInput from "@/lib/MaskedCurrencyInput";
 import { Button } from "../ui/button";
 import { Dispatch, SetStateAction, use, useEffect, useState } from "react";
 import { LoaderCircle } from "lucide-react";
-import { onlyClientFinanceProps, paymentsProps } from "@/interfaces/interfaces";
+import { onlyClientFinanceProps } from "@/interfaces/interfaces";
 import { toast } from "sonner";
 import { getMonthPayment } from "@/lib/dateFormatter";
 import ClientsContext from "@/context/ClientsContext";
@@ -74,8 +74,8 @@ const NewPayment = ({ id, payment, maturity, openPayment, setOpenPayment, total 
         <DialogHeader className="flex items-center justify-center">
           <DialogTitle>Dados do pagamento</DialogTitle>
         </DialogHeader>
-        <div className="grid w-full gap-2">
-          <div className="flex flex-col items-center gap-2">
+        <div className="grid w-full gap-4">
+          <div className="flex flex-col items-center gap-4">
             <Label htmlFor="name" className="text-left w-full font-semibold">
               Data do pagamento*:
             </Label>

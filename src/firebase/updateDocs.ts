@@ -1,4 +1,4 @@
-import { clientProps, onlyClientFinanceProps, paymentsProps, saleProps } from "@/interfaces/interfaces";
+import { clientProps, onlyClientFinanceProps, paymentsProps } from "@/interfaces/interfaces";
 import { db } from "@/lib/firebase";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 
